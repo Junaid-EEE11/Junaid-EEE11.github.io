@@ -11,19 +11,37 @@ if (yearElement) {
 }
 
 // Contact Form
-const form = document.querySelector("form");
+emailjs.init({
+    publicKey: "9zWXZTWukrR-bP-O0",
+});
 
-if (form) {
-    form.addEventListener("submit", function (e) {
-        e.preventDefault();
+const form = document.getElementById("contact-form");
 
-        alert(
-            "Thank you for your message!\n\nThe contact form is currently a demo. It will be connected to email later."
-        );
+form.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    emailjs.send("service_s5lg1dv","template_gxed5dm",{
+
+        from_name: document.getElementById("name").value,
+        reply_to: document.getElementById("email").value,
+        message: document.getElementById("message").value
+
+    }).then(function(){
+
+        alert("Message sent successfully!");
 
         form.reset();
+
+    }).catch(function(error){
+
+        alert("Failed to send message.");
+
+        console.log(error);
+
     });
-}
+
+});
 
 // Smooth scrolling for navigation
 document.querySelectorAll('a[href^="#"]').forEach(link => {
