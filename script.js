@@ -119,5 +119,34 @@ document.querySelectorAll(".card, .project-card, section").forEach(item => {
     observer.observe(item);
 
 });
+const message = document.getElementById("message").value.trim();
+const lastSent = localStorage.getItem("lastMessageTime");
 
+if (lastSent) {
+    const elapsed = Date.now() - Number(lastSent);
+
+    if (elapsed < 60000) {
+        const seconds = Math.ceil((60000 - elapsed) / 1000);
+
+        alert(`Please wait ${seconds} seconds before sending another message.`);
+        return;
+    }
+}
+
+localStorage.setItem("lastMessageTime", Date.now());
+
+if (message.length < 20) {
+    alert("Please enter at least 20 characters.");
+    return;
+}
+const token = document.querySelector(
+    'input[name="cf-turnstile-response"]'
+)?.value;
+
+if (!token) {
+    alert("Please complete the verification.");
+    return;
+}
+
+       
 console.log("Portfolio loaded successfully.");
